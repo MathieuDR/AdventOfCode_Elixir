@@ -14,13 +14,13 @@ defmodule AdventOfCode.Day01 do
   def create_elves() do
     AdventOfCode.Input.get!(1, 2022)
     |> String.trim()
-    |> String.split(~r{(\r\n\r\n|\n\n)}) # Split in chunks for separate elves
+    |> String.split("\n\n") # Split in chunks for separate elves
     |> Enum.map(&calculate_carried_calories(&1))
   end
 
   defp calculate_carried_calories(list) do
     list
-    |> String.split(~r{(\r\n|\n)})
+    |> String.split("\n")
     |> Enum.map(&String.to_integer(&1))
     |> Enum.sum()
   end
