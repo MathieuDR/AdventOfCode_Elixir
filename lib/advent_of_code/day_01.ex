@@ -1,25 +1,27 @@
 defmodule AdventOfCode.Day01 do
   def part1(_args) do
-    getListFromInput()
-     |> Enum.max()
+    create_elves()
+    |> Enum.max()
   end
 
   def part2(_args) do
-    getListFromInput()
-     |> Enum.sort()
-     |> Enum.take(-3)
-     |> Enum.sum()
+    create_elves()
+    |> Enum.sort()
+    |> Enum.take(-3)
+    |> Enum.sum()
   end
 
-  defp getListFromInput() do
+  def create_elves() do
     AdventOfCode.Input.get!(1, 2022)
-    |> String.split(~r{(\r\n|\r|\n)})
-    |> Enum.map(&Integer.parse(&1))
-    |> createCaloriesPerElfList()
+    |> String.trim()
+    |> String.split(~r{(\r\n\r\n|\n\n)}) # Split in chunks for separate elves
+    |> Enum.map(&calculate_carried_calories(&1))
   end
 
-  defp createCaloriesPerElfList(items), do: createCaloriesList(items, 0, [])
-  defp createCaloriesList([], currentWeight, weightPerElf), do: [currentWeight | weightPerElf]
-  defp createCaloriesList( [{res, _} | tail] = _, currentElfWeight, weightPerElf), do: createCaloriesList(tail, currentElfWeight + res, weightPerElf)
-  defp createCaloriesList( [:error | tail] = _, currentElfWeight, weightPerElf), do: createCaloriesList(tail, 0, [currentElfWeight | weightPerElf])
+  defp calculate_carried_calories(list) do
+    list
+    |> String.split(~r{(\r\n|\n)})
+    |> Enum.map(&String.to_integer(&1))
+    |> Enum.sum()
+  end
 end
