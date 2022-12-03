@@ -22,36 +22,27 @@ defmodule AdventOfCode.Day03 do
     end)
   end
 
-  defp get_repeated_item({a, b} = _), do: get_repeated_item(String.graphemes(a), [String.graphemes(b)])
-  defp get_repeated_item([a | tail] = _), do: get_repeated_item(String.graphemes(a), Enum.map(tail, &String.graphemes/1))
-
-  defp get_repeated_item([l | tail], second) do
-    is_duplicated = second
-    |> Enum.map(&Enum.member?(&1, l))
-    |> Enum.all?(&(&1 == true))
-
-    if(is_duplicated) do
-      l
-    else
-      get_repeated_item(tail, second)
-    end
+  def get_repeated_item(items) do
+    items
+    |> Enum.map(&(MapSet.new(to_charlist(&1))))
+    |> Enum.reduce(&MapSet.intersection/2)
+    |> Enum.to_list()
   end
 
   defp split_rucksack(rucksack) do
     item_count = div(String.length(rucksack), 2)
-    String.split_at(rucksack, item_count)
+    {a, b} = String.split_at(rucksack, item_count)
+    [a, b]
   end
 
-  defp calculate_priority(letter) do
-    ascii = to_ascii(letter)
+  def calculate_priority([letter | _] = _), do: calculate_priority(letter)
 
+  def calculate_priority(letter) do
     cond do
-      ascii >= 97 -> ascii -  96
-      true -> ascii - 38
+      letter in ?a..?z -> letter - ?a + 1
+      letter in ?A..?Z -> letter - ?A + 27
     end
   end
-
-  defp to_ascii(string) when is_binary(string), do: :binary.first(string)
 
   defp get_rucksacks() do
     AdventOfCode.Input.get!(3, 2022)
