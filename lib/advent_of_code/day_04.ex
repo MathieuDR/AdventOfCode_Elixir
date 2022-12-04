@@ -1,13 +1,15 @@
 defmodule AdventOfCode.Day04 do
   def part1(_args) do
-    get_ranges()
-    |> Enum.map(&overlaps?/1)
-    |> Enum.reduce(0, fn overlap, acc -> if overlap do acc + 1 else acc end end)
+    solve(&overlaps?/1)
   end
 
   def part2(_args) do
+    solve(&has_overlap?/1)
+  end
+
+  defp solve(fun) do
     get_ranges()
-    |> Enum.map(&has_overlap?/1)
+    |> Enum.map(fun)
     |> Enum.reduce(0, fn overlap, acc -> if overlap do acc + 1 else acc end end)
   end
 
