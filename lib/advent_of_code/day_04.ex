@@ -10,7 +10,7 @@ defmodule AdventOfCode.Day04 do
   defp solve(fun) do
     get_ranges()
     |> Enum.map(fun)
-    |> Enum.reduce(0, fn overlap, acc -> if overlap do acc + 1 else acc end end)
+    |> Enum.count(&(&1))
   end
 
   def overlaps?([r1_min..r1_max, r2_min..r2_max] = _) when r1_min <= r2_min and r1_max >= r2_max, do: true
