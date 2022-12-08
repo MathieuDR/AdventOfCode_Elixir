@@ -24,15 +24,12 @@ defmodule AdventOfCode.Day06 do
 
   def check_repeating([] = _), do: false
   def check_repeating([c | tail] = _) do
-    # IO.inspect(c)
-    # IO.inspect(tail)
     if Enum.member?(tail, c), do: true, else: check_repeating(tail)
   end
 
   def get_data_stream() do
     AdventOfCode.Input.get!(6, 2022)
     |> String.trim()
-    # |> String.split("\n")
     |> String.to_charlist()
   end
 end
