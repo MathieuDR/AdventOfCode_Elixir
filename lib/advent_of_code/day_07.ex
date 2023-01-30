@@ -58,7 +58,6 @@ defmodule AdventOfCode.Day07 do
   def do_commands([], _, dir_map), do: dir_map
 
   def add_new_dir(dir, path, map) do
-    # key = get_compound_key([dir | path])
     to_add = create_new_dir(path)
     |> IO.inspect(label: dir)
 
@@ -66,8 +65,6 @@ defmodule AdventOfCode.Day07 do
     |> Map.put_new(dir, to_add)
 
     put_in_reverse(map, path, parent)
-
-    # Map.put_new(map, key, to_add)
   end
 
   def exist(map, key, item) do
@@ -77,19 +74,14 @@ defmodule AdventOfCode.Day07 do
   end
 
   def add_item(item, map, item_key, path) do
-    # Get current map
-    # key = get_compound_key(path)
-    # current = Map.fetch!(map, key)
     current = get_in_reverse(map, path)
     |> IO.inspect(label: path)
 
-    # Check if exists in current
     if exist(current, item_key, item) do
       IO.puts("We exist!")
       {:noop, map}
     else
       new_map = Map.replace!(current, item_key, [item | Map.fetch!(current, item_key)])
-      # result = Map.replace!(map, key, new_map)
       result = put_in_reverse(map, path, new_map)
       {:ok, result}
     end
@@ -112,9 +104,9 @@ defmodule AdventOfCode.Day07 do
   end
 
 
-  def get_compound_key(crumb), do: get_compound_key(Enum.reverse(crumb), "")
-  def get_compound_key([], key), do: key
-  def get_compound_key([path | tail], ""), do: get_compound_key(tail, path)
-  def get_compound_key([path | tail], "/" = key), do: get_compound_key(tail, key <> path)
-  def get_compound_key([path | tail], key), do: get_compound_key(tail, key <> "/" <> path)
+  # def get_compound_key(crumb), do: get_compound_key(Enum.reverse(crumb), "")
+  # def get_compound_key([], key), do: key
+  # def get_compound_key([path | tail], ""), do: get_compound_key(tail, path)
+  # def get_compound_key([path | tail], "/" = key), do: get_compound_key(tail, key <> path)
+  # def get_compound_key([path | tail], key), do: get_compound_key(tail, key <> "/" <> path)
 end
