@@ -102,11 +102,4 @@ defmodule AdventOfCode.Day07 do
       _ -> nil
     end
   end
-
-
-  # def get_compound_key(crumb), do: get_compound_key(Enum.reverse(crumb), "")
-  # def get_compound_key([], key), do: key
-  # def get_compound_key([path | tail], ""), do: get_compound_key(tail, path)
-  # def get_compound_key([path | tail], "/" = key), do: get_compound_key(tail, key <> path)
-  # def get_compound_key([path | tail], key), do: get_compound_key(tail, key <> "/" <> path)
 end
